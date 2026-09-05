@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AtitudeMasc</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- TELA: AUTENTICAÇÃO -->
+  <section id="screen-auth" class="screen active">
+    <div class="auth-box">
+      <h1>AtitudeMasc</h1>
+      <p class="subtitle">Desenvolvimento pessoal e atitude social</p>
+
+      <div id="auth-error" class="error-msg"></div>
+
+      <input type="text" id="auth-name" placeholder="Nome (só no cadastro)" class="input-field" style="display:none">
+      <input type="email" id="auth-email" placeholder="E-mail" class="input-field">
+      <input type="password" id="auth-password" placeholder="Senha" class="input-field">
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="keep-logged-checkbox">
+        Manter conectado
+      </label>
+
+      <button id="btn-auth-submit" class="btn-primary">Entrar</button>
+
+      <p class="switch-text">
+        <span id="auth-switch-text">Não tem conta?</span>
+        <a href="#" id="btn-auth-switch">Cadastre-se</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- TELA: ONBOARDING -->
+  <section id="screen-onboarding" class="screen">
+    <div class="onboarding-box">
+      <h2>Vamos te conhecer</h2>
+      <p>Qual sua maior dificuldade hoje?</p>
+      <div class="option-list" id="onboarding-options">
+        <button class="option-btn" data-value="pessoalmente">Puxar assunto pessoalmente</button>
+        <button class="option-btn" data-value="redes">Conversar em redes sociais</button>
+        <button class="option-btn" data-value="apps">Apps de namoro</button>
+        <button class="option-btn" data-value="trabalho">Ambiente de trabalho/faculdade</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELA: PREMIUM -->
+  <section id="screen-premium" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>AtitudeMasc Premium</h2></header>
+    <div class="feedback-box">
+      <p id="premium-message" style="margin-bottom:16px;"></p>
+      <p style="color:#999; font-size:13px; margin-bottom:16px;">R$ 19,90/mês — 3 dias grátis para testar, cancele quando quiser.</p>
+      <button id="btn-subscribe-premium" class="btn-primary">Assinar Premium</button>
+      <p id="premium-status-msg" style="font-size:13px; color:#999; margin-top:8px;"></p>
+    </div>
+  </section>
+
+  <!-- TELA: DASHBOARD -->
+  <section id="screen-dashboard" class="screen">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2>Olá, <span id="dash-name">usuário</span></h2>
+        <button id="btn-edit-profile" class="btn-link">✏️ Editar perfil</button>
+      </div>
+      <button id="btn-logout" class="btn-link">Sair</button>
+    </header>
+
+    <div class="insight-box">
+      <h3>💡 Pensamento do dia</h3>
+      <p id="daily-insight-text"></p>
+      <p id="daily-insight-source" class="insight-source"></p>
+    </div>
+
+    <div class="streak-card" style="display:none;">
+      <span class="streak-number" id="streak-count">0</span>
+      <span class="streak-label">dias de sequência</span>
+    </div>
+
+    <div class="module-grid">
+      <button class="module-card module-card-wide" id="btn-seja-premium" data-screen="screen-premium" style="background:linear-gradient(135deg,#f6b93b,#e58e26); color:#1a1a22;">
+  <span class="module-icon">⭐</span>
+  Seja Premium
+</button>
+      <button class="module-card" data-screen="screen-simulator">
+        <span class="module-icon">💬</span>
+        Simulador de Conversa
+      </button>
+      <button class="module-card" data-screen="screen-generator">
+        <span class="module-icon">⚡</span>
+        Gerador de Assuntos
+      </button>
+      <button class="module-card" data-screen="screen-challenges">
+        <span class="module-icon">🏆</span>
+        Desafios Diários
+      </button>
+      <button class="module-card" data-screen="screen-profile-check">
+        <span class="module-icon">📋</span>
+        Análise de Perfil
+      </button>
+      <button class="module-card" data-screen="screen-track">
+        <span class="module-icon">🗺️</span>
+        Minha Trilha
+      </button>
+      <button class="module-card" data-screen="screen-journal">
+        <span class="module-icon">📔</span>
+        Diário de Progresso
+      </button>
+      <button class="module-card" data-screen="screen-breathing">
+        <span class="module-icon">🧘</span>
+        Regulação Emocional
+      </button>
+      <button class="module-card" data-screen="screen-oratory">
+        <span class="module-icon">🎤</span>
+        Treino de Oratória
+      </button>
+      <button class="module-card" data-screen="screen-insights">
+        <span class="module-icon">🧠</span>
+        Insights e Ensinamentos
+      </button>
+      <button class="module-card module-card-wide" data-screen="screen-stats">
+        <span class="module-icon">📊</span>
+        Estatísticas
+      </button>
+    </div>
+
+    <div class="achievements-box">
+      <h3>Conquistas Diárias</h3>
+      <div id="achievements-list" class="achievements-list"></div>
+    </div>
+  </section>
+
+  <!-- TELA: EDITAR PERFIL -->
+  <section id="screen-edit-profile" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Editar Perfil</h2></header>
+
+    <div class="edit-profile-box">
+      <label class="field-label">Nome</label>
+      <input type="text" id="edit-name-input" class="input-field" placeholder="Seu nome">
+
+      <div id="edit-profile-msg" class="error-msg"></div>
+
+      <button id="btn-save-profile" class="btn-primary">Salvar alterações</button>
+      <button id="btn-change-objective" class="btn-link" style="margin-top:12px;">🎯 Trocar objetivo principal</button>
+    <button id="btn-manage-subscription" class="btn-link" style="margin-top:12px; display:none;">💳 Gerenciar assinatura</button>
+    </div>
+  </section>
+
+  <!-- TELA: MÓDULO 1 - SIMULADOR -->
+  <section id="screen-simulator" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Simulador de Conversa</h2></header>
+
+    <div id="simulator-mode-select" class="option-list">
+      <button class="option-btn" data-mode="rapido">⚡ Cenários Rápidos (1 pergunta cada)</button>
+      <button class="option-btn" data-mode="completo">💬 Conversa Completa (~20 mensagens)</button>
+    </div>
+
+    <div id="simulator-scenario-select" class="option-list" style="display:none">
+      <p>Escolha um cenário:</p>
+    </div>
+
+    <div id="simulator-play" class="sim-play" style="display:none">
+      <p id="sim-situation" class="sim-situation"></p>
+      <div id="sim-options" class="option-list"></div>
+      <div id="sim-feedback" class="feedback-box" style="display:none">
+        <p id="sim-feedback-text"></p>
+        <button id="btn-sim-next" class="btn-primary">Próximo</button>
+      </div>
+    </div>
+
+    <div id="long-scenario-select" class="option-list" style="display:none">
+      <p>Escolha uma conversa completa:</p>
+    </div>
+
+    <div id="long-play" class="sim-play" style="display:none">
+      <div class="interest-bar-wrap">
+        <div class="interest-bar-label">Nível de interesse dela</div>
+        <div class="interest-bar-bg"><div id="interest-bar-fill" class="interest-bar-fill"></div></div>
+      </div>
+      <p id="long-turn-counter" style="font-size:12px;color:#999;margin-bottom:8px;"></p>
+      <p id="long-situation" class="sim-situation"></p>
+      <div id="long-options" class="option-list"></div>
+      <div id="long-feedback" class="feedback-box" style="display:none">
+        <p id="long-feedback-text"></p>
+        <button id="btn-long-next" class="btn-primary">Continuar</button>
+      </div>
+    </div>
+
+    <div id="long-result" class="feedback-box" style="display:none">
+      <p id="long-result-text"></p>
+      <button id="btn-long-restart" class="btn-primary">Escolher outra conversa</button>
+    </div>
+  </section>
+
+  <!-- TELA: MÓDULO 2 - GERADOR -->
+  <section id="screen-generator" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Gerador de Assuntos</h2></header>
+    <p>Escolha o contexto:</p>
+    <div class="option-list" id="generator-context-select">
+      <button class="option-btn" data-ctx="festa">🎉 Festa</button>
+      <button class="option-btn" data-ctx="aplicativo">❤️ Aplicativo de Namoro</button>
+      <button class="option-btn" data-ctx="trabalho">💼 Trabalho</button>
+      <button class="option-btn" data-ctx="faculdade">🎓 Faculdade</button>
+      <button class="option-btn" data-ctx="academia">🏋️ Academia</button>
+      <button class="option-btn" data-ctx="transporte">🚌 Transporte Público</button>
+      <button class="option-btn" data-ctx="vizinhanca">🏠 Vizinhança</button>
+      <button class="option-btn" data-ctx="redes_sociais">📱 Redes Sociais/Story</button>
+      <button class="option-btn" data-ctx="evento_curso">🎤 Evento/Curso</button>
+      <button class="option-btn" data-ctx="fila_espera">🕐 Fila de Espera</button>
+    </div>
+    <div id="generator-result" class="feedback-box" style="display:none">
+      <p id="generator-text"></p>
+      <button id="btn-generator-another" class="btn-primary">Gerar outro</button>
+    </div>
+  </section>
+
+  <!-- TELA: MÓDULO 3 - DESAFIOS -->
+  <section id="screen-challenges" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Desafios Diários</h2></header>
+    <div id="challenges-list" class="challenge-list"></div>
+  </section>
+
+  <!-- TELA: MÓDULO 4 - ANÁLISE DE PERFIL -->
+  <section id="screen-profile-check" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Análise de Perfil</h2></header>
+
+    <div class="upload-box">
+      <input type="file" id="profile-photo-input" accept="image/*" style="display:none">
+      <button id="btn-upload-photo" class="btn-primary">📷 Enviar foto para análise</button>
+      <img id="profile-photo-preview" style="display:none; max-width:100%; border-radius:12px; margin-top:12px;">
+      <p id="analysis-status" style="font-size:13px; color:#999; margin-top:8px;"></p>
+    </div>
+
+    <div class="upload-box">
+      <input type="file" id="bio-photo-input" accept="image/*" style="display:none">
+      <button id="btn-upload-bio" class="btn-primary">📝 Enviar print da bio</button>
+      <p id="bio-analysis-status" style="font-size:13px; color:#999; margin-top:8px;"></p>
+      <div id="bio-tips-box" class="feedback-box" style="display:none"></div>
+    </div>
+
+    <div id="checklist-list" class="checklist-list"></div>
+  </section>
+
+  <!-- TELA: ESTATÍSTICAS -->
+  <section id="screen-stats" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Estatísticas</h2></header>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number" id="stat-challenges">0</span>
+        <span class="stat-label">Desafios concluídos hoje</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="stat-simulador">0</span>
+        <span class="stat-label">Conversas simuladas hoje</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="stat-conquistas">0</span>
+        <span class="stat-label">Conquistas hoje</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="stat-streak">0</span>
+        <span class="stat-label">Sequência atual</span>
+      </div>
+    </div>
+
+    <h3 style="margin-top:24px;">🏆 Todas as Conquistas</h3>
+    <div id="all-achievements-list" class="achievements-list" style="margin-bottom:20px;"></div>
+
+    <h3 style="margin-top:24px;">Atividade nos últimos 7 dias</h3>
+    <div id="activity-chart" class="activity-chart"></div>
+    <div id="day-detail-box" class="feedback-box" style="display:none; margin-top:16px;"></div>
+  </section>
+
+  <!-- TELA: INSIGHTS -->
+  <section id="screen-insights" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Insights e Ensinamentos</h2></header>
+    <div id="insights-list" class="insight-list"></div>
+  </section>
+
+  <!-- TELA: TRILHA -->
+  <section id="screen-track" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Minha Trilha</h2></header>
+    <div id="track-content"></div>
+  </section>
+
+  <!-- TELA: DIÁRIO DE PROGRESSO -->
+  <section id="screen-journal" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Diário de Progresso</h2></header>
+    <textarea id="journal-textarea" class="input-field" style="min-height:100px;" placeholder="O que você fez bem hoje? Como foi sua evolução?"></textarea>
+    <button id="btn-save-journal" class="btn-primary">Salvar reflexão</button>
+    <div id="journal-comparison"></div>
+    <h3 style="margin-top:20px;">Suas reflexões</h3>
+    <div id="journal-list" class="insight-list"></div>
+  </section>
+
+  <!-- TELA: REGULAÇÃO EMOCIONAL -->
+  <section id="screen-breathing" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Regulação Emocional</h2></header>
+
+    <div id="emotional-mode-select" class="option-list">
+      <button class="option-btn" data-exercise="breathing">🌬️ Respiração Guiada (4-4-4-4)</button>
+      <button class="option-btn" data-exercise="grounding">🌳 Ancoragem 5-4-3-2-1</button>
+      <button class="option-btn" data-exercise="pmr">💪 Relaxamento Muscular Progressivo</button>
+      <button class="option-btn" data-exercise="reframe">🔄 Reestruturar um Pensamento</button>
+      <button class="option-btn" data-exercise="visualization">🎯 Visualização de Sucesso</button>
+      <button class="option-btn" data-exercise="pausa">🛑 Pausa STOP</button>
+      <button class="option-btn" data-exercise="compassion">💙 Autocompaixão Guiada</button>
+      <button class="option-btn" data-exercise="mood">📊 Registro de Humor</button>
+      <button class="option-btn" data-exercise="sigh">🌬️ Suspiro Fisiológico</button>
+    </div>
+
+    <div id="breathing-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p style="text-align:center; color:#999;">Respiração guiada 4-4-4-4 pra acalmar antes de uma situação social</p>
+      <div id="breathing-circle" class="breathing-circle"></div>
+      <p id="breathing-label" style="text-align:center; font-size:18px; font-weight:bold;">Pronto pra começar?</p>
+      <p id="breathing-countdown" style="text-align:center; font-size:32px; color:#a29bfe;"></p>
+      <p style="text-align:center; color:#999; font-size:13px;">Ciclos completos: <span id="breathing-cycles">0</span></p>
+      <button id="btn-breathing-toggle" class="btn-primary">Começar</button>
+    </div>
+
+    <div id="grounding-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p style="color:#999; font-size:13px; margin-bottom:12px;">Preencha cada sentido pra trazer sua atenção pro presente.</p>
+      <div id="grounding-steps"></div>
+      <button id="btn-grounding-finish" class="btn-primary">Concluir exercício</button>
+    </div>
+
+    <div id="pmr-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p style="text-align:center; color:#999;">Tensione e relaxe cada grupo muscular por alguns segundos.</p>
+      <p id="pmr-label" style="text-align:center; font-size:20px; font-weight:bold; margin-top:20px;">Pronto pra começar?</p>
+      <p id="pmr-countdown" style="text-align:center; font-size:32px; color:#a29bfe;"></p>
+      <p style="text-align:center; color:#999; font-size:13px;">Etapa <span id="pmr-step">0</span> de <span id="pmr-total-steps">0</span></p>
+      <button id="btn-pmr-toggle" class="btn-primary">Começar</button>
+    </div>
+
+    <div id="reframe-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <label class="field-label">Qual pensamento ansioso está passando pela sua cabeça agora?</label>
+      <textarea id="reframe-thought-input" class="input-field" style="min-height:80px;" placeholder="Ex: Vou parecer estranho se puxar assunto..."></textarea>
+      <label class="field-label">Existe uma forma mais equilibrada de ver isso?</label>
+      <textarea id="reframe-alt-input" class="input-field" style="min-height:80px;" placeholder="Ex: Mesmo que fique estranho, é só uma tentativa e ninguém vai lembrar disso amanhã."></textarea>
+      <button id="btn-reframe-save" class="btn-primary">Salvar reflexão</button>
+      <div id="reframe-list" class="insight-list" style="margin-top:16px;"></div>
+    </div>
+
+    <div id="visualization-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p id="visualization-text" class="sim-situation" style="text-align:center; min-height:80px;"></p>
+      <p id="visualization-countdown" style="text-align:center; font-size:24px; color:#a29bfe;"></p>
+      <button id="btn-visualization-toggle" class="btn-primary">Começar</button>
+    </div>
+
+    <div id="pausa-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p style="text-align:center; color:#999;">Técnica STOP: uma pausa rápida antes de reagir no automático.</p>
+      <p id="pausa-text" class="sim-situation" style="text-align:center; min-height:80px;"></p>
+      <p id="pausa-countdown" style="text-align:center; font-size:24px; color:#a29bfe;"></p>
+      <button id="btn-pausa-toggle" class="btn-primary">Começar</button>
+    </div>
+
+    <div id="compassion-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p style="text-align:center; color:#999;">Autocompaixão guiada em 3 passos, baseada em pesquisas sobre gentileza consigo mesmo.</p>
+      <p id="compassion-text" class="sim-situation" style="text-align:center; min-height:80px;"></p>
+      <p id="compassion-countdown" style="text-align:center; font-size:24px; color:#a29bfe;"></p>
+      <button id="btn-compassion-toggle" class="btn-primary">Começar</button>
+    </div>
+
+    <div id="mood-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <label class="field-label">Como você está se sentindo agora?</label>
+      <div class="option-list" id="mood-emotion-select">
+        <button class="option-btn" data-emotion="Ansioso">😰 Ansioso</button>
+        <button class="option-btn" data-emotion="Inseguro">😟 Inseguro</button>
+        <button class="option-btn" data-emotion="Neutro">😐 Neutro</button>
+        <button class="option-btn" data-emotion="Animado">🙂 Animado</button>
+        <button class="option-btn" data-emotion="Confiante">😄 Confiante</button>
+      </div>
+      <div id="mood-detail" style="display:none; margin-top:16px;">
+        <label class="field-label">Intensidade (1 a 5): <span id="mood-intensity-value">3</span></label>
+        <input type="range" id="mood-intensity-input" min="1" max="5" value="3" style="width:100%;">
+        <label class="field-label" style="margin-top:12px;">O que pode ter gerado isso? (opcional)</label>
+        <input type="text" id="mood-trigger-input" class="input-field" placeholder="Ex: pensar em puxar assunto na festa hoje">
+        <button id="btn-mood-save" class="btn-primary">Registrar</button>
+      </div>
+      <div id="mood-list" class="insight-list" style="margin-top:16px;"></div>
+    </div>
+
+    <div id="sigh-view" class="emotional-view" style="display:none">
+      <button class="btn-back" data-emotional-back>← Voltar aos exercícios</button>
+      <p style="text-align:center; color:#999;">2 inspirações curtas + 1 expiração longa — técnica rápida e validada cientificamente pra reduzir ansiedade na hora.</p>
+      <div id="sigh-circle" class="breathing-circle"></div>
+      <p id="sigh-label" style="text-align:center; font-size:18px; font-weight:bold;">Pronto pra começar?</p>
+      <p id="sigh-countdown" style="text-align:center; font-size:32px; color:#a29bfe;"></p>
+      <p style="text-align:center; color:#999; font-size:13px;">Ciclos completos: <span id="sigh-cycles">0</span></p>
+      <button id="btn-sigh-toggle" class="btn-primary">Começar</button>
+    </div>
+  </section>
+
+  <!-- TELA: TREINO DE ORATÓRIA -->
+  <section id="screen-oratory" class="screen">
+    <header class="topbar"><button class="btn-back" data-back="screen-dashboard">← Voltar</button><h2>Treino de Oratória</h2></header>
+    <p style="color:#999; font-size:13px; margin-bottom:12px;">Grave um treino curto falando sobre um assunto qualquer e reveja depois.</p>
+    <video id="oratory-preview" autoplay muted style="width:100%; border-radius:12px; display:none;"></video>
+    <video id="oratory-playback" controls style="width:100%; border-radius:12px; display:none; margin-top:12px;"></video>
+    <p id="oratory-status" class="error-msg"></p>
+    <button id="btn-oratory-start" class="btn-primary">🎥 Iniciar gravação</button>
+    <button id="btn-oratory-stop" class="btn-primary" style="display:none; background:#ff6b6b;">⏹ Parar gravação</button>
+    <p id="oratory-analysis-status" style="font-size:13px; color:#999; margin-top:8px;"></p>
+    <div id="oratory-analysis-box" class="feedback-box" style="display:none"></div>
+    <h3 style="margin-top:20px;">Checklist de comunicação</h3>
+    <div id="oratory-checklist-list" class="checklist-list"></div>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
