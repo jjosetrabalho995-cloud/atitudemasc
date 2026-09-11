@@ -87,8 +87,14 @@ document.querySelectorAll('.module-card').forEach(btn => {
 document.getElementById('btn-subscribe-premium').addEventListener('click', async () => {
   const statusMsg = document.getElementById('premium-status-msg');
   statusMsg.textContent = 'Gerando link de pagamento...';
+  const baseUrl = window.location.origin + window.location.pathname;
   const { data, error } = await supabaseClient.functions.invoke('create-checkout-session', {
-    body: { userId: currentUser.id, email: currentUser.email, origin: window.location.origin }
+    body: {
+      userId: currentUser.id,
+      email: currentUser.email,
+      successUrl: baseUrl + '?checkout=success',
+      cancelUrl: baseUrl + '?checkout=cancel'
+    }
   });
   if (error || !data || !data.url) {
     statusMsg.textContent = '⚠️ Não foi possível iniciar o pagamento. Tente novamente.';
